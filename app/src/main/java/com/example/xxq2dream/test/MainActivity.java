@@ -3,6 +3,7 @@ package com.example.xxq2dream.test;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.support.design.widget.NavigationView;
@@ -12,13 +13,16 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.animation.LinearInterpolator;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.xxq2dream.test.adapter.MyAdapter;
+import com.example.xxq2dream.test.dashcircle_progressview.DashCircleProgressView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -37,6 +41,8 @@ public class MainActivity extends AppCompatActivity
 
     private ListView lvListView, mListViewRight;
     private String [] devices;
+    private DashCircleProgressView circleView;
+    private Button btnStart,btnEnd;
 
 
 
@@ -47,9 +53,29 @@ public class MainActivity extends AppCompatActivity
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
+        circleView = (DashCircleProgressView) findViewById(R.id.circleView);
+        btnStart = (Button) findViewById(R.id.btnStart);
+        btnStart.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                circleView.setValueInterpolator(new LinearInterpolator());
+                circleView.setValueAnimated(100, 60 * 1000);
+            }
+        });
+        btnEnd = (Button) findViewById(R.id.btnEnd);
+        btnEnd.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                circleView.setValue(circleView.getCurrentValue());
+                circleView.setValueAnimated(circleView.getCurrentValue(), 100, 2000);
+            }
+        });
+
         toolbarLeft = (TextView) findViewById(R.id.toolbar_left);
         toolbarTitle = (TextView) findViewById(R.id.toolbar_title);
         toolbarRight = (TextView) findViewById(R.id.toolbar_right);
+        toolbarLeft.setOnClickListener(this);
+        toolbarRight.setOnClickListener(this);
 
         initListView();
 
@@ -68,11 +94,11 @@ public class MainActivity extends AppCompatActivity
             }
         });
 
-//        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-//        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
-//                this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
-//        drawer.addDrawerListener(toggle);
-//        toggle.syncState();
+        mDrawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
+                this, mDrawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+        mDrawer.addDrawerListener(toggle);
+        toggle.syncState();
 
 
     }

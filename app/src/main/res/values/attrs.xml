@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="DashCircleProgressView">
+        <attr name="dcpv_rimColor" format="color"/>
+        <attr name="dcpv_rimWidth" format="dimension"/>
+        <attr name="dcpv_barColor" format="color"/>
+        <attr name="dcpv_barWidth" format="dimension"/>
+    </declare-styleable>
+</resources>
